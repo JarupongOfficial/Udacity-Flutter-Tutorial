@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/painting/colors.dart';
+import 'unit.dart';
 
 import 'category.dart';
 
@@ -38,15 +38,26 @@ class CategoryRoute extends StatelessWidget {
     );
   }
 
+  List<Unit> _retrieveUnitList(String categoryName) {
+    return List.generate(10, (int i) {
+      i += 1;
+      return Unit(
+        name: '$categoryName Unit $i',
+        conversion: i.toDouble(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final categories = <CategoryList>[];
 
-    for (var i = 0; i < _categoryNames.length; i++){
+    for (var i = 0; i < _categoryNames.length; i++) {
       categories.add(CategoryList(
         name: _categoryNames[i],
         color: _baseColors[i],
-        iconLocation : Icons.cake,
+        iconLocation: Icons.cake,
+        units: _retrieveUnitList(_categoryNames[i]),
       ));
     }
 
