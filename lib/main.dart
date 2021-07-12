@@ -1,34 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  print("Hello");
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text("Hello Rectangle"),
-          ),
-          body: HelloRectangle()),
-    ),
-  );
+import 'category.dart';
+
+const _categoryName = 'Cake';
+const _categoryIcon = Icons.cake;
+const _categoryColor = Colors.green;
+
+void main(){
+  runApp(UnitConverterApp());
 }
 
-class HelloRectangle extends StatelessWidget {
+class UnitConverterApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Colors.greenAccent,
-        height: 400,
-        width: 300,
-        child: Center(
-          child: Text(
-            "Hello",
-            style: TextStyle(fontSize: 40.0),
-          ),
+  Widget build(BuildContext context){
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Unit Converter',
+      home: Scaffold(
+        backgroundColor: Colors.green[100],
+        body: Center(
+          child: CategoryList(),
         ),
-      ),
+      )
     );
   }
 }
