@@ -8,7 +8,7 @@ final _borderRadius = BorderRadius.circular(_rowHeight / 2);
 
 class CategoryList extends StatelessWidget {
   final String name;
-  final Color color;
+  final ColorSwatch color;
   final IconData iconLocation;
   final List<Unit> units;
 
@@ -41,6 +41,7 @@ class CategoryList extends StatelessWidget {
           color: color,
           units: units,
         ),
+        resizeToAvoidBottomInset: false,
       );
     }));
   }
@@ -54,8 +55,8 @@ class CategoryList extends StatelessWidget {
         height: _rowHeight,
         child: InkWell(
           borderRadius: _borderRadius,
-          highlightColor: color,
-          splashColor: color,
+          highlightColor: color['highlight'],
+          splashColor: color['splash'],
           onTap: () => _navigateToConverter(context),
           child: Padding(
             padding: EdgeInsets.all(8.0),
@@ -84,3 +85,4 @@ class CategoryList extends StatelessWidget {
     );
   }
 }
+
