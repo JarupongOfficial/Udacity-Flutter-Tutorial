@@ -16,8 +16,23 @@ class CategoryRoute extends StatefulWidget {
 }
 
 class _CategoryRouteState extends State<CategoryRoute> {
-  late Category _defaultCategory;
-  late Category _currentCategory;
+  Category _defaultCategory = Category(
+      name: 'Length',
+      color: ColorSwatch(0xFF6AB7A8, {
+        'highlight': Color(0xFF6AB7A8),
+        'splash': Color(0xFF0ABC9B),
+      }),
+      iconLocation: Icons.cake,
+      units: <Unit>[]);
+
+  Category _currentCategory = Category(name: 'Length',
+      color: ColorSwatch(0xFF6AB7A8, {
+        'highlight': Color(0xFF6AB7A8),
+        'splash': Color(0xFF0ABC9B),
+      }),
+      iconLocation: Icons.cake,
+      units: <Unit>[]);
+
   final _categories = <Category>[];
 
   static const _categoryNames = <String>[
