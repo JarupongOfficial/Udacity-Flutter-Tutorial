@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import 'api.dart';
 import 'unit.dart';
 import 'category.dart';
 import 'backdrop.dart';
@@ -18,24 +19,8 @@ class CategoryRoute extends StatefulWidget {
 
 class _CategoryRouteState extends State<CategoryRoute> {
   Category? _defaultCategory;
-  // = Category(
-  //     name: 'Length',
-  //     color: ColorSwatch(0xFF6AB7A8, {
-  //       'highlight': Color(0xFF6AB7A8),
-  //       'splash': Color(0xFF0ABC9B),
-  //     }),
-  //     iconLocation: 'Icons.cake',
-  //     units: <Unit>[]);
 
   Category? _currentCategory;
-  // = Category(
-  //     name: 'Length',
-  //     color: ColorSwatch(0xFF6AB7A8, {
-  //       'highlight': Color(0xFF6AB7A8),
-  //       'splash': Color(0xFF0ABC9B),
-  //     }),
-  //     iconLocation: 'Icons.cake',
-  //     units: <Unit>[]);
 
   final _categories = <Category>[];
 
@@ -83,6 +68,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
     'assets/icons/time.png',
     'assets/icons/digital_storage.png',
     'assets/icons/power.png',
+    'assets/icons/currency.png',
   ];
 
 
@@ -91,6 +77,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
     super.didChangeDependencies();
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
+      await _retrieveApiCategory();
     }
   }
 
@@ -109,7 +96,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
       var category = Category(
           name: key,
           color: _baseColors[categoryIndex],
-          //todo
           iconLocation: _icons[categoryIndex],
           units: units,
       );
@@ -122,6 +108,34 @@ class _CategoryRouteState extends State<CategoryRoute> {
       });
       categoryIndex += 1;
     });
+  }
+
+  Future<void> _retrieveApiCategory() async{
+    setState(() {
+      _categories.add(Category(
+        name: apiCategory['name'],
+        units: [],
+        color: _baseColors.last,
+        iconLocation: _icons.last,
+      ));
+    });
+    final api = Api();
+    final jsonUnits = await api.getUnits(apiCategory['route']!);
+    if(jsonUnits != null){
+      final units = <Unit>[];
+      for(var unit in jsonUnits){
+        units.add(Unit.fromJson(unit));
+      }
+      setState(() {
+        _categories.removeLast();
+        _categories.add(Category(
+          name: apiCategory['name'],
+          units: units,
+          color: _baseColors.last,
+          iconLocation: _icons.last,
+        ));
+      });
+    }
   }
 
   void _onCategoryTap(Category category) {
