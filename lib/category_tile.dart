@@ -27,8 +27,8 @@ class CategoryTile extends StatelessWidget {
         height: _rowHeight,
         child: InkWell(
           borderRadius: _borderRadius,
-          highlightColor: category.color['highlight'],
-          splashColor: category.color['splash'],
+          highlightColor: category.color!['highlight'],
+          splashColor: category.color!['splash'],
           onTap: () => onTap(category),
           child: Padding(
             padding: EdgeInsets.all(8.0),
@@ -37,14 +37,11 @@ class CategoryTile extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: 16.0),
-                  child: Icon(
-                    category.iconLocation,
-                    size: 60.0,
-                  ),
+                  child: Image.asset(category.iconLocation!),
                 ),
                 Center(
                   child: Text(
-                    category.name,
+                    category.name!,
                     style: Theme.of(context).textTheme.headline4,
                     textAlign: TextAlign.center,
                   ),

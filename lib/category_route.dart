@@ -9,8 +9,6 @@ import 'backdrop.dart';
 import 'unit_converter.dart';
 import 'category_tile.dart';
 
-// final _backgroundColor = Colors.green[100];
-
 class CategoryRoute extends StatefulWidget {
   const CategoryRoute();
 
@@ -19,23 +17,25 @@ class CategoryRoute extends StatefulWidget {
 }
 
 class _CategoryRouteState extends State<CategoryRoute> {
-  Category _defaultCategory = Category(
-      name: 'Length',
-      color: ColorSwatch(0xFF6AB7A8, {
-        'highlight': Color(0xFF6AB7A8),
-        'splash': Color(0xFF0ABC9B),
-      }),
-      iconLocation: Icons.cake,
-      units: <Unit>[]);
+  Category? _defaultCategory;
+  // = Category(
+  //     name: 'Length',
+  //     color: ColorSwatch(0xFF6AB7A8, {
+  //       'highlight': Color(0xFF6AB7A8),
+  //       'splash': Color(0xFF0ABC9B),
+  //     }),
+  //     iconLocation: 'Icons.cake',
+  //     units: <Unit>[]);
 
-  Category _currentCategory = Category(
-      name: 'Length',
-      color: ColorSwatch(0xFF6AB7A8, {
-        'highlight': Color(0xFF6AB7A8),
-        'splash': Color(0xFF0ABC9B),
-      }),
-      iconLocation: Icons.cake,
-      units: <Unit>[]);
+  Category? _currentCategory;
+  // = Category(
+  //     name: 'Length',
+  //     color: ColorSwatch(0xFF6AB7A8, {
+  //       'highlight': Color(0xFF6AB7A8),
+  //       'splash': Color(0xFF0ABC9B),
+  //     }),
+  //     iconLocation: 'Icons.cake',
+  //     units: <Unit>[]);
 
   final _categories = <Category>[];
 
@@ -75,23 +75,16 @@ class _CategoryRouteState extends State<CategoryRoute> {
     }),
   ];
 
+  static const _icons = <String>[
+    'assets/icons/length.png',
+    'assets/icons/area.png',
+    'assets/icons/volume.png',
+    'assets/icons/mass.png',
+    'assets/icons/time.png',
+    'assets/icons/digital_storage.png',
+    'assets/icons/power.png',
+  ];
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   for (var i = 0; i < _categoryNames.length; i++) {
-  //     var category = Category(
-  //       name: _categoryNames[i],
-  //       color: _baseColors[i],
-  //       iconLocation: Icons.cake,
-  //       units: _retrieveUnitList(_categoryNames[i]),
-  //     );
-  //     if (i == 0) {
-  //       _defaultCategory = category;
-  //     }
-  //     _categories.add(category);
-  //   }
-  // }
 
   @override
   Future<void> didChangeDependencies() async {
@@ -116,7 +109,8 @@ class _CategoryRouteState extends State<CategoryRoute> {
       var category = Category(
           name: key,
           color: _baseColors[categoryIndex],
-          iconLocation: Icons.cake,
+          //todo
+          iconLocation: _icons[categoryIndex],
           units: units,
       );
 
@@ -160,16 +154,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     }
   }
 
-  // List<Unit> _retrieveUnitList(String categoryName) {
-  //   return List.generate(10, (int i) {
-  //     i += 1;
-  //     return Unit(
-  //       name: '$categoryName Unit $i',
-  //       conversion: i.toDouble(),
-  //     );
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
 
@@ -195,10 +179,10 @@ class _CategoryRouteState extends State<CategoryRoute> {
 
     return Backdrop(
       currentCategory:
-          _currentCategory == null ? _defaultCategory : _currentCategory,
+          _currentCategory == null ? _defaultCategory! : _currentCategory!,
       frontPanel: _currentCategory == null
-          ? UnitConverter(category: _defaultCategory)
-          : UnitConverter(category: _currentCategory),
+          ? UnitConverter(category: _defaultCategory!)
+          : UnitConverter(category: _currentCategory!),
       backPanel: listView,
       frontTitle: Text('Unit Converter'),
       backTitle: Text('Select a Category'),

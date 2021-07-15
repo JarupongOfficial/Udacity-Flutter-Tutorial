@@ -219,7 +219,7 @@ class _BackdropState extends State<Backdrop>
               onTap: _toggleBackdropPanelVisibility,
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
-              title: Text(widget.currentCategory.name),
+              title: Text(widget.currentCategory.name!),
               child: widget.frontPanel,
             ),
           ),

@@ -43,7 +43,7 @@ class _UnitConverterState extends State<UnitConverter> {
 
   void _createDropdownMenuItems() {
     var newItems = <DropdownMenuItem>[];
-    for (var unit in widget.category.units) {
+    for (var unit in widget.category.units!) {
       newItems.add(DropdownMenuItem(
         value: unit.name,
         child: Container(
@@ -61,8 +61,8 @@ class _UnitConverterState extends State<UnitConverter> {
 
   void _setDefaults() {
     setState(() {
-      _fromValue = widget.category.units[0];
-      _toValue = widget.category.units[1];
+      _fromValue = widget.category.units![0];
+      _toValue = widget.category.units![1];
     });
   }
 
@@ -107,7 +107,7 @@ class _UnitConverterState extends State<UnitConverter> {
   }
 
   Unit _getUnit(String unitName) {
-    return widget.category.units.firstWhere(
+    return widget.category.units!.firstWhere(
       (Unit unit) {
         return unit.name == unitName;
       },
