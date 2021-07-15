@@ -23,11 +23,22 @@ class _UnitConverterState extends State<UnitConverter> {
   late List<DropdownMenuItem> _unitMenuItems;
   bool _showValidationError = false;
 
+  final _inputKey = GlobalKey(debugLabel: 'inputText');
+
   @override
   void initState() {
     super.initState();
     _createDropdownMenuItems();
     _setDefaults();
+  }
+
+  @override
+  void didUpdateWidget(UnitConverter old){
+    super.didUpdateWidget(old);
+    if(old.category != widget.category){
+      _createDropdownMenuItems();
+      _setDefaults();
+    }
   }
 
   void _createDropdownMenuItems() {
@@ -159,6 +170,7 @@ class _UnitConverterState extends State<UnitConverter> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextField(
+            key: _inputKey,
             style: Theme.of(context).textTheme.headline4,
             decoration: InputDecoration(
               labelStyle: Theme.of(context).textTheme.headline4,
@@ -207,18 +219,31 @@ class _UnitConverterState extends State<UnitConverter> {
       ),
     );
 
-    final converter = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+
+    final converter = ListView(
       children: [
         input,
         arrows,
         output,
       ],
     );
-
+    
     return Padding(
       padding: _padding,
-      child: converter,
+      child: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation){
+          if(orientation == Orientation.portrait){
+            return converter;
+          }else{
+            return Center(
+              child: Container(
+                width: 450.0,
+                child: converter,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
