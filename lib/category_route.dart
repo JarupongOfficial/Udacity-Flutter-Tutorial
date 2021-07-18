@@ -71,7 +71,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     'assets/icons/currency.png',
   ];
 
-
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
@@ -91,17 +90,17 @@ class _CategoryRouteState extends State<CategoryRoute> {
     var categoryIndex = 0;
     data.keys.forEach((key) {
       final List<Unit> units =
-      data[key].map<Unit>((dynamic data) => Unit.fromJson(data)).toList();
+          data[key].map<Unit>((dynamic data) => Unit.fromJson(data)).toList();
 
       var category = Category(
-          name: key,
-          color: _baseColors[categoryIndex],
-          iconLocation: _icons[categoryIndex],
-          units: units,
+        name: key,
+        color: _baseColors[categoryIndex],
+        iconLocation: _icons[categoryIndex],
+        units: units,
       );
 
       setState(() {
-        if(categoryIndex == 0){
+        if (categoryIndex == 0) {
           _defaultCategory = category;
         }
         _categories.add(category);
@@ -110,7 +109,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
   }
 
-  Future<void> _retrieveApiCategory() async{
+  Future<void> _retrieveApiCategory() async {
     setState(() {
       _categories.add(Category(
         name: apiCategory['name'],
@@ -121,9 +120,9 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
     final api = Api();
     final jsonUnits = await api.getUnits(apiCategory['route']!);
-    if(jsonUnits != null){
+    if (jsonUnits != null) {
       final units = <Unit>[];
-      for(var unit in jsonUnits){
+      for (var unit in jsonUnits) {
         units.add(Unit.fromJson(unit));
       }
       setState(() {
@@ -148,9 +147,13 @@ class _CategoryRouteState extends State<CategoryRoute> {
     if (deviceOrientation == Orientation.portrait) {
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
+          var _category = _categories[index];
           return CategoryTile(
-            category: _categories[index],
-            onTap: _onCategoryTap,
+            category: _category,
+            onTap: _category.name == apiCategory['name'] &&
+                    _category.units!.isEmpty
+                ? null
+                : _onCategoryTap,
           );
         },
         itemCount: _categories.length,
@@ -170,8 +173,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(_categories.isEmpty){
+    if (_categories.isEmpty) {
       return Center(
         child: Container(
           height: 180.0,
